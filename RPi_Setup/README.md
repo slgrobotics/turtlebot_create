@@ -139,6 +139,8 @@ here are all commands:
     
 At this point you should be able to use teleop **from your desktop machine:**
 
+(skip it if you don't have a joystick on the desktop machine)
+
 Joystick teleop friendly blog:
 
     https://articulatedrobotics.xyz/mobile-robot-14a-teleop/
@@ -211,7 +213,7 @@ Commands to compile and install:
     source ~/xv_11_ws/install/setup.bash
     ros2 run xv_11_driver xv_11_driver &
 
-Rviz needs at least a static transform, to relate the grid to the laser frame ("neato_laser" in this case).
+Rviz **on your desktop machine** needs at least a static transform, to relate the grid to the laser frame ("neato_laser" in this case).
 
     rviz2 &
     ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map neato_laser &
@@ -297,5 +299,5 @@ Useful commands:
     sudo ls -al /etc/systemd/system/multi-user.target.wants/turtle.service
     ps -ef | grep driver
 
-You can now reboot Raspberry Pi, and the three drivers will start automatically and show up in rqt and rqt_graph
+You can now reboot Raspberry Pi, and the three drivers will start automatically and show up in **rqt** and **rqt_graph**
 
