@@ -6,13 +6,13 @@ Your *Create Base, XV_11 Laser Scanner* and *BNO055 IMU* nodes and messages shou
 
 Most of the power hungry ROS2 Turtlebot software (nodes) - like Cartographer and Navigation, - run on your desktop machine. Also, **Rviz, Rqt** and **Rqt_graph** with their UI run on the desktop.
 
-Here is how we set up your **desktop machine** with ROS2 Turtlebot software.
+Here is how we set up your **desktop machine** with ROS2 Turtlebot3 software.
 
-1. Set up ROBOTIS-GIT Turtlebot3 software - binary and a working copy
+## 1. Set up ROBOTIS-GIT Turtlebot3 software - binary and a working copy ##
 
 The idea is to take a well designed Turtlebot software package and make only necessary modifications to adapt it to our hardware. 
 
-We set up the binary package to be able to try Gazebo simulation and to have all components installed properly in /opt/ros directory.
+### a. We set up the binary package to be able to try Gazebo simulation and to have all components installed properly in /opt/ros directory. ###
 
 See https://github.com/ROBOTIS-GIT/turtlebot3
 
@@ -23,7 +23,7 @@ For binary installation:
     sudo apt install gazebo
     sudo apt install ros-humble-turtlebot3*
 
-We also set up sources of the same Turtlebot3 packages in a working folder, where we can modify just a few files to make it work with our hardware.
+### b. We also set up sources of the same Turtlebot3 packages in a working folder, where we can modify just a few files to make it work with our hardware. ###
 
 Install sources in a working directory:
 
@@ -39,7 +39,7 @@ You want to append the following to .barshrc
 
     export TURTLEBOT3_MODEL=waffle
 
-Now you can try Gazebo simulation and keyboard teleop:
+## 2. Now you can try Gazebo simulation and keyboard teleop: ##
 
 ```
 source  /opt/ros/humble/setup.bash
@@ -57,20 +57,32 @@ export TURTLEBOT3_MODEL=waffle
 ros2 run turtlebot3_teleop teleop_keyboard
 ```
 
+## 3. Modify the working copy of Turtlebot3 software to run with Create hardware drivers ##
 
+We need to modify one launch file to NOT run the physical Turtlebot3 drivers. Our drivers on the Raspberry Pi are already active on the network,  publishing information in /scan, /imu /odom, /joint_states and other topics. The *Create Base* node will subscribe to /cmd_vel topic.
 
+Find a modified copy of *robot.launch.py* file in this folder and copy it here:
 
+    ~/turtlebot_create_ws/src/turtlebot3/turtlebot3/turtlebot3_bringup/launch/robot.launch.py
 
+## 4. Teleoperate your Turtlebot using keyboard teleop ##
 
-2. Test Turtlebot3 in Gazebo simulation
+```
+cd ~/turtlebot_create_ws
+colcon build
+source ~/turtlebot_create_ws/install/setup.bash   (this overrides binary installation pointers)
+ros2 launch turtlebot3_bringup robot.launch.py
+```
+**These can run in separate terminals from the binaries in /op/ros:**
+```
+ros2 run turtlebot3_teleop teleop_keyboard
 
-3. Modify the working copy of Turtlebot3 software to run with Create hardware drivers
+ros2 launch turtlebot3_cartographer cartographer.launch.py
+```
 
-4. Teleoperate your Turtlebot using keyboard teleop
+## 5. Map your room by running ROS2 Cartographer package ##
 
-5. Map your room by running ROS2 Cartographer package
+## 6. Navigate around by using Nav2 package ##
 
-6. Navigate around by using Nav2 package
-
-7. Optionally, explore cameras and other devices on the robot
+## 7. Optionally, explore cameras and other devices on the robot ##
 
