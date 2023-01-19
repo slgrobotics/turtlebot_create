@@ -194,10 +194,17 @@ We need the following files (copy them from this repository):
 
 4. A service file /etc/systemd/system/turtle.service
 
-Set file permissions and enable service:
+Set file permissions:
 
     chmod +x ~/launch/bootup_launch.sh    
     chmod +x ~/run.sh
+
+Try running all three drivers from the terminal:
+
+    cd
+    ./run.sh
+
+Enable service:
 
     sudo systemctl daemon-reload
     sudo systemctl enable turtle.service
