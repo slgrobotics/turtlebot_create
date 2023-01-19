@@ -8,17 +8,44 @@ Follow this guide, selecting Ubuntu 22.04.1 LTS Server 64 bit:
 
     https://docs.ros.org/en/humble/How-To-Guides/Installing-on-Raspberry-Pi.html
 
-Once you go through Ubuntu setup, make sure your Raspberry Pi is connected to your home WiFi. Create a "ros" account with sudo privileges.
+    login:  ubuntu / ubuntu
 
-Install additional packages for convenience:
+You need to make sure that your network is set up, better use Ethernet cable initially, for WiFi - see /etc/netplan/*
+
+Create a "ros" account with sudo privileges. Use ros account for furter setup and work.
+
+    sudo adduser ros sudo
+
+It is a good idea to update:
+
+    sudo apt update
+    sudo apt upgrade
+    sudo apt full-upgrade
+    sudo apt clean    // purges packages from SD   https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=133691
+
+    hostnamectl set-hostname turtle
+
+Have some extra networking packages installed:
+
+    sudo apt install raspi-config
+    sudo apt install winbind samba smbclient net-tools
+    sudo apt install python3-pip
 
 You should be able to ping your "turtle.local" machine and ssh into it ("ssh ros@turtle.local" from your Desktop machine).
 
-### 2. Continue with same guide, installing binary ROS2 Humble
+You may need to set up a swap file to compensate for small RAM on RPi 3B:
 
-Follow these guides:
+    sudo swapon --show     (if nothing shows up, swap isn't set up - https://www.linuxtut.com/en/71e3874cb83ed12ec405/)
+    sudo fallocate -l 2G /swapfile
+    sudo chmod 600 /swapfile
+    sudo mkswap /swapfile
+    sudo swapon /swapfile    (now "top" shows MiB Swap: 2048.0)
+    echo '/swapfile swap swap defaults 0 0' | sudo tee -a /etc/fstab
 
-    https://docs.ros.org/en/humble/Installation.html
+### 2. Continue with ROS2 installation
+
+Follow these guides, selecting binary ROS2-Base Humble ("Bare bones" ros-humble-ros-base). Also, install Development tools:
+
     https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
 
     https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html
@@ -32,7 +59,7 @@ Try some basic things from Tutorials:
     sudo apt install ros-humble-demo-nodes-py
     sudo apt install ros-humble-demo-nodes-cpp
 
-now you can run in separate terminals (even across your LAN machines):
+now you can run these commands in separate terminals (even across your LAN machines):
 
     ros2 run demo_nodes_cpp talker
     ros2 run demo_nodes_py listener
@@ -57,10 +84,10 @@ here are all commands:
 
     cd ~/create_ws
     rosdep update  
-    rosdep install --from-paths src --ignore-src -r -y      (will ask for su password)
+    rosdep install --from-paths src --ignore-src -r -y      (will ask for ros password)
 
     cd ~/create_ws
-    vi src/create_robot/create_bringup/config/default.yaml    (edit port - /dev/ttyS0 on sergeidell, /dev/ttyUSB0 on turtle)
+    vi src/create_robot/create_bringup/config/default.yaml    (edit port - /dev/ttyS0 on desktop, /dev/ttyUSB0 on turtle)
     colcon build
 
     source ~/create_ws/install/setup.bash
