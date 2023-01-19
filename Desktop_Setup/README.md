@@ -14,12 +14,12 @@ You need to make sure that your network is set up, better use Ethernet cable ini
 
 It is a good idea to update:
 
-	  sudo apt update
-	  sudo apt upgrade
-	  sudo apt full-upgrade
-	  sudo apt clean    // purges packages from SD   https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=133691
+    sudo apt update
+    sudo apt upgrade
+    sudo apt full-upgrade
+    sudo apt clean
 
-	  hostnamectl set-hostname NEW_NAME
+    hostnamectl set-hostname NEW_NAME
 
     sudo adduser ros sudo
 
@@ -28,13 +28,51 @@ Have some extra networking packages installed:
     sudo apt install winbind samba smbclient net-tools
     sudo apt install python3-pip
 
-2. Set up "full ROS2 Humble desktop" on your desktop machine. I used binary Debian packages.
+2. Set up "full ROS2-Desktop Humble" on your desktop machine. I used binary Debian packages.
 
-    [https://docs.ros.org/en/humble/Tutorials.html](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
+    https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
 
     sudo apt install ~nros-humble-rqt*
 
 3. Set up ROBOTIS-GIT Turtlebot3 for simulation and actual Create operation
+
+    https://github.com/ROBOTIS-GIT/turtlebot3
+
+    https://navigation.ros.org/tutorials/docs/navigation2_on_real_turtlebot3.html
+
+
+sudo apt install -y python3-colcon-common-extensions python3-rosdep python3-vcstool
+
+Follow https://ros2-industrial-workshop.readthedocs.io/en/latest/_source/navigation/ROS2-Turtlebot.html
+
+Use https://github.com/ROBOTIS-GIT/turtlebot3
+
+For binary:
+
+    sudo apt install gazebo
+    sudo apt install ros-humble-turtlebot3*
+
+For sources:
+
+    mkdir -p ~/turtlebot3_ws/src
+    cd turtlebot3_ws/
+    wget https://raw.githubusercontent.com/ROBOTIS-GIT/turtlebot3/humble-devel/turtlebot3.repos
+    vcs import src<turtlebot3.repos
+
+    rosdep update
+    rosdep install --from-paths src --ignore-src -y
+
+    source  /opt/ros/humble/setup.bash
+    export TURTLEBOT3_MODEL=waffle
+    Empty world:          ros2 launch turtlebot3_gazebo empty_world.launch.py
+    World with obstacles: ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+
+    export TURTLEBOT3_MODEL=waffle
+    ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=true
+
+    export TURTLEBOT3_MODEL=waffle
+    ros2 run turtlebot3_teleop teleop_keyboard
+
 
 4. Teleoperate the robot using the desktop's joystick
 
