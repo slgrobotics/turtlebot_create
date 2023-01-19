@@ -21,7 +21,7 @@ It is a good idea to update:
     sudo apt update
     sudo apt upgrade
     sudo apt full-upgrade
-    sudo apt clean    // purges packages from SD   https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=133691
+    sudo apt clean    (purges packages from SD   https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=133691)
 
     hostnamectl set-hostname turtle
 
