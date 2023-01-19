@@ -12,7 +12,7 @@ Follow this guide, selecting Ubuntu 22.04.1 LTS Server 64 bit:
 
 You need to make sure that your network is set up, better use Ethernet cable initially, for WiFi - see /etc/netplan/*
 
-Create a "ros" account with sudo privileges. Use ros account for furter setup and work.
+Create a "ros" account with sudo privileges. Use ros account for further setup and work.
 
     sudo adduser ros sudo
 
@@ -93,7 +93,7 @@ here are all commands:
     source ~/create_ws/install/setup.bash
     ros2 launch create_bringup create_1.launch
     
-At this point you should be able to use teleop from the desktop:
+At this point you should be able to use teleop from your desktop machine:
 
 Joystick teleop friendly blog:
 
@@ -108,7 +108,7 @@ To test joystick:
     https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/
 
 ### Note: joy_node sends cmd_vel messages ONLY when enable_button is pressed (Usually btn 1)
-	you MUST set enable_button to desired value (0 for btn 1, "front trigger").
+	you MUST set enable_button to desired value (0 for btn 1, the "front trigger").
 	ros2 param get /teleop_twist_joy_node enable_button  - to see current value
 
     sudo apt-get install ros-humble-teleop-twist-joy
