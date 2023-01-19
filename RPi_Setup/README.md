@@ -15,6 +15,9 @@ You need to make sure that your network is set up, better use Ethernet cable ini
 Create a "ros" account with sudo privileges. Use ros account for further setup and work.
 
     sudo adduser ros sudo
+    sudo adduser ros dialout
+
+    hostnamectl set-hostname turtle
 
 It is a good idea to update:
 
@@ -23,16 +26,33 @@ It is a good idea to update:
     sudo apt full-upgrade
     sudo apt clean    (purges packages from SD   https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=133691)
 
-    hostnamectl set-hostname turtle
-
 Have some extra networking packages installed:
 
     sudo apt install raspi-config
-    sudo apt install winbind samba smbclient net-tools
+    sudo apt install winbind samba smbclient net-tools wget
     sudo apt install python3-pip
 
 You should be able to ping your "turtle.local" machine and ssh into it ("ssh ros@turtle.local" from your Desktop machine).
 
+    sudo apt install i2c-tools
+    sudo i2cdetect -y 1
+
+Set up Python GPIO: https://ubuntu.com/tutorials/gpio-on-raspberry-pi#1-overview
+
+    sudo apt install python3-lgpio
+    sudo pip3 install RPi.GPIO
+
+Set up WiringPi GPIO: https://projects.drogon.net/raspberry-pi/wiringpi/download-and-install/
+
+    sudo apt install build-essential
+    mkdir tmp
+    cd tmp
+    git clone https://github.com/WiringPi/WiringPi.git
+    cd WiringPi
+    bash ./build
+    gpio -h
+    sudo gpio readall
+    
 You may need to set up a swap file to compensate for small RAM on RPi 3B:
 
     sudo swapon --show     (if nothing shows up, swap isn't set up - https://www.linuxtut.com/en/71e3874cb83ed12ec405/)
@@ -41,6 +61,28 @@ You may need to set up a swap file to compensate for small RAM on RPi 3B:
     sudo mkswap /swapfile
     sudo swapon /swapfile    (now "top" shows MiB Swap: 2048.0)
     echo '/swapfile swap swap defaults 0 0' | sudo tee -a /etc/fstab
+
+Samba creates shared folder, accessible from Windows machines:
+
+    sudo mkdir /home/shared; sudo chmod og+rwx /home/shared   (+x matters for readability)
+    sudo usermod -aG sambashare ros
+    cp  /etc/samba/smb.conf .
+    vi smb.conf  <- add Samba share - see below
+    sudo cp smb.conf /etc/samba/smb.conf
+    sudo systemctl restart smbd
+
+Samba share - add to the end of smb.conf, use any Share name you like, e.g "ShareAll"
+```
+[ShareAll]
+   path = /home/shared
+   read only = no
+   public = yes
+   writable = yes
+   guest ok = yes
+   guest only = yes
+   force create mode = 777
+   force directory mode = 777
+```
 
 ### 2. Continue with ROS2 installation
 
@@ -66,7 +108,9 @@ now you can run these commands in separate terminals (even across your LAN machi
 
 ### 3. Compile ROS2 driver for Create 1 base
 
-For iRobot Create 1 (2004) and other roombas of 400, 500 and 600 series (https://en.wikipedia.org/wiki/IRobot_Create):
+For iRobot Create 1 (2004) and other roombas of 400, 500 and 600 series (https://en.wikipedia.org/wiki/IRobot_Create).
+
+It can be connected via FTDI USB Serial (/dev/ttyUSB0 on turtle) or via TTL Serial (pins 1-RXD and 2-TXD on the DB25 connector). A desktop machine can connect via RS232 serial, using special iRobot Create serial cable (/dev/ttyS0 on desktop).
 
 Follow this guide:
 
@@ -93,7 +137,7 @@ here are all commands:
     source ~/create_ws/install/setup.bash
     ros2 launch create_bringup create_1.launch
     
-At this point you should be able to use teleop from your desktop machine:
+At this point you should be able to use teleop **from your desktop machine:**
 
 Joystick teleop friendly blog:
 
@@ -107,19 +151,21 @@ To test joystick:
 
     https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/
 
-### Note: joy_node sends cmd_vel messages ONLY when enable_button is pressed (Usually btn 1)
+**__Note:__** *joy_node sends cmd_vel messages ONLY when enable_button is pressed (Usually btn 1)
 	you MUST set enable_button to desired value (0 for btn 1, the "front trigger").
-	ros2 param get /teleop_twist_joy_node enable_button  - to see current value
+	ros2 param get /teleop_twist_joy_node enable_button  - to see current value*
+
+**On your desktop machine:**
 
     sudo apt-get install ros-humble-teleop-twist-joy
 
     ros2 launch teleop_twist_joy teleop-launch.py     - also runs joy_node
-    ros2 param set /teleop_twist_joy_node enable_button 0
+    ros2 param set /teleop_twist_joy_node enable_button 0   - in separate terminal
 
 
 ### 4. Compile ROS2 driver for Laser scanner
 
-Surreal XV Lidar controller v1.2 (Neato Lidar)
+Surreal XV Lidar controller v1.2 (Neato Lidar) - connected via USB
 
     https://github.com/getSurreal/XV_Lidar_Controller  - Teensy software
     https://www.getsurreal.com/product/lidar-controller-v2-0/   - hardware (Teensy 2.0)
@@ -132,6 +178,7 @@ The following file needs editing (as  declare_parameter() now requires a default
 
     /home/sergei/xv_11_ws/src/xv_11_driver/src/xv_11_driver.cpp
 
+```
     int main(int argc, char * argv[])
     {
       rclcpp::init(argc, argv);
@@ -149,6 +196,7 @@ The following file needs editing (as  declare_parameter() now requires a default
 
       node->declare_parameter("firmware_version", XV11_FIRMWARE_VERSION_DEFAULT);
       auto firmware_param  = rclcpp::Parameter("firmware_version", XV11_FIRMWARE_VERSION_DEFAULT);
+```
 
 Commands to compile and install:
 
@@ -181,7 +229,7 @@ For Rviz you need:
 
 ### 5. Compile ROS2 driver for BNO055 IMU
 
-Connect I2C: SCL - pin 05, SDA - pin 03 of Raspberry Pi
+Connect to I2C: SCL - pin 05, SDA - pin 03 of Raspberry Pi
 
 Info and tests:
 
