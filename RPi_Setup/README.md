@@ -154,11 +154,66 @@ For Rviz you need:
 
 ### 5. Compile ROS2 driver for BNO055 IMU
 
+Connect I2C: SCL - pin 05, SDA - pin 03 of Raspberry Pi
+
+Info and tests:
+
+    https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor
+    https://learn.adafruit.com/adafruit-bno055-absolute-orientation-sensor/webserial-visualizer
+    https://hackmd.io/@edgesense/ryzAq3IFs
+
+BNO055 IMU (via UART or I2C - Python) - seems well supported, active development, ROS2 node
+
+    https://github.com/flynneva/bno055
+
+    mkdir -p ~/bno055_ws/src
+    cd ~/bno055_ws/src/
+    git clone https://github.com/flynneva/bno055.git
+    cd ..
+    colcon build
+    vi ~/bno055_ws/src/bno055/bno055/params/bno055_params_i2c.yaml   - change i2c_bus to 1. Use i2cdetect -y 1
+    sudo pip3 install smbus
+ 
+ Try running it, see IMU messages in rqt:
+ 
+    source ~/bno055_ws/install/setup.bash
+    ros2 run bno055 bno055  --ros-args --params-file ~/bno055_ws/src/bno055/bno055/params/bno055_params_i2c.yaml
 
 
 ### 6. Create a Linux service for on-boot autostart
 
+With Create base, XV11 Laser Scanner and BNO055 IMU ROS2 nodes tested, it is time to set up autostart on boot for hands-free operation.
 
+We need the following files (copy them from this repository):
 
+1. Combined launch file on turtle.local: /home/ros/launch/myturtle.py
 
+2. A test run file /home/ros/run.sh
+
+3. An autostart file /home/ros/launch/bootup_launch.sh
+
+4. A service file /etc/systemd/system/turtle.service
+
+Set file permissions and enable service:
+
+    chmod +x ~/launch/bootup_launch.sh    
+    chmod +x ~/run.sh
+
+    sudo systemctl daemon-reload
+    sudo systemctl enable turtle.service
+    sudo systemctl start turtle.service
+
+Useful commands:
+
+    systemctl status turtle.service
+    systemctl cat turtle.service
+    sudo systemctl reload-or-restart turtle.service
+    sudo journalctl -xeu turtle.service
+
+    sudo ls -al /etc/systemd/system/turtle.service
+    sudo ls -al /etc/systemd/system/turtle.service.d/override.conf
+    sudo ls -al /etc/systemd/system/multi-user.target.wants/turtle.service
+    ps -ef | grep driver
+
+You can now reboot Raspberry Pi, and the three drivers will start automatically and show up in rqt and rqt_graph
 
