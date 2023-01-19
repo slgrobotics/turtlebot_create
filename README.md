@@ -12,7 +12,7 @@ I've chosen not to create a fork from ROBOTIS-GIT Turtlebot 3 repository, but ra
 
 1. Set up ROS2 on your Linux desktop machine (mine is Intel I5 with 8GB memory) - folder *Desktop_Setup*
 2. Set up ROS2 and robot drivers on Raspberry Pi (3B, 4) - folder *RPi_Setup*
-3. Teleoperate the robot using the desktop's joystick
+3. Teleoperate the robot using the desktop's joystick - folder *Turtle_Setup*
 4. Map your room by running ROS2 Cartographer package
 5. Navigate around by using Nav2 package
 6. Optionally, explore cameras and other devices on the robot
