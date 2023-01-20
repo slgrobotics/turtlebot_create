@@ -65,7 +65,7 @@ Find a modified copy of *robot.launch.py* file in this folder and copy it here:
 
     ~/turtlebot_create_ws/src/turtlebot3/turtlebot3/turtlebot3_bringup/launch/robot.launch.py
 
-## 4. Teleoperate your Turtlebot using keyboard teleop ##
+## 4. Teleoperate your Turtlebot using keyboard or joystick teleop ##
 
 ```
 cd ~/turtlebot_create_ws
