@@ -39,7 +39,7 @@ You want to append the following to .barshrc
 
     export TURTLEBOT3_MODEL=waffle
 
-## 2. Now you can try Gazebo simulation and keyboard teleop: ##
+## 2. Now you can try Gazebo simulation and a keyboard or joystick teleop: ##
 
 ```
 source  /opt/ros/humble/setup.bash
@@ -59,7 +59,7 @@ ros2 run turtlebot3_teleop teleop_keyboard
 
 ## 3. Modify the working copy of Turtlebot3 software to run with Create hardware drivers ##
 
-We need to modify one launch file to NOT run the physical Turtlebot3 drivers. Our drivers on the Raspberry Pi are already active on the network,  publishing information in /scan, /imu /odom, /joint_states and other topics. The *Create Base* node will subscribe to /cmd_vel topic.
+We need to modify one launch file to NOT run the physical Turtlebot3 drivers. Our drivers on the Raspberry Pi are already active on the network,  publishing information in */scan, /imu /odom, /joint_states* and other topics. The *Create Base* node will subscribe to */cmd_vel* topic published by teleop.
 
 Find a modified copy of *robot.launch.py* file in this folder and copy it here:
 
@@ -79,8 +79,11 @@ ros2 run turtlebot3_teleop teleop_keyboard
 
 ros2 launch turtlebot3_cartographer cartographer.launch.py
 ```
+It is a good time to run **rqt** and **rqt_graph** to explore nodes and topics.
 
 ## 5. Map your room by running ROS2 Cartographer package ##
+
+Once you have your Cartographer running ... [ to be continued ]
 
 ## 6. Navigate around by using Nav2 package ##
 
