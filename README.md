@@ -17,6 +17,14 @@ I've chosen not to create a fork from ROBOTIS-GIT Turtlebot 3 repository, but ra
 5. Navigate around by using Nav2 package
 6. Optionally, explore cameras and other devices on the robot
 
+## Below is my Turtlebot setup
+
+I have a powered USB hub ("Belkin") for the Laser scanner, and some obsolete router 9V power for my prior experiments. The Raspberry Pi and USB hub are powered from a 3S LiPo battery through a 5V Buck converter. The Raspberry Pi 3B is connected to Create 1 Base via FTDI USB-to-TTL-Serial adapter, pins 1,2 and 14.
+
+I use Pixhawk standard I2C connectors for convenience, feeding 3.3V to its VCC rail. BNO055 IMU is connected to it.
+
 ![IMG_20230119_174749811_HDR](https://user-images.githubusercontent.com/16037285/213751203-675d83b6-2036-40fb-a05b-09158c08dd71.jpg)
 ![IMG_20230119_185616996](https://user-images.githubusercontent.com/16037285/213751208-5553f129-1f50-4218-9046-555f3a39df97.jpg)
 ![IMG_20230119_182203839_HDR](https://user-images.githubusercontent.com/16037285/213751214-75b6443a-e198-40f2-85ef-94ef069d0949.jpg)
+![IMG_20230120_103156610](https://user-images.githubusercontent.com/16037285/213752879-3c88968a-8206-4ac0-acd0-9c275ddac683.jpg)
+![IMG_20221217_095711148](https://user-images.githubusercontent.com/16037285/213755321-cc3408be-14e7-410d-8cd5-442953a7a80b.jpg)
