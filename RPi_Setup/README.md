@@ -164,6 +164,16 @@ To test joystick:
     ros2 launch teleop_twist_joy teleop-launch.py     - also runs joy_node
     ros2 param set /teleop_twist_joy_node enable_button 0   - in separate terminal
 
+To make joystick startup more convenient, create a shell script:
+
+```
+$ cat teleop.sh
+
+ros2 launch teleop_twist_joy teleop-launch.py &
+sleep 3
+ros2 param set /teleop_twist_joy_node enable_button 0
+ros2 param set /teleop_twist_joy_node enable_turbo_button 3
+```
 
 ### 4. Compile ROS2 driver for Laser scanner
 
