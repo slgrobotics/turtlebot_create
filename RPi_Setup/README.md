@@ -1,5 +1,7 @@
 # This is how to set up your Raspberry Pi 3B (or better)
 
+Once you set up ROS2-Desktop Humble on your desktop computer (see **Desktop_Setup folder**) - you can now set up your on-board Raspberry Pi machine.
+
 We need to set up a Ubuntu 22.04 Server 64 bit, install ROS2 Humble, compile drivers for Create 1, Laser scanner, BNO055 IMU and create a Linux service for on-boot autostart.
 
 ### 1. Set up a Ubuntu 22.04 Server 64 bit
@@ -311,3 +313,4 @@ Useful commands:
 
 You can now reboot Raspberry Pi, and the three drivers will start automatically and show up in **rqt** and **rqt_graph**
 
+**Now you can proceed to Turtle_Setup folder**
