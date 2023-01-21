@@ -24,10 +24,11 @@ I have a powered USB hub ("Belkin") for the Laser scanner, and some obsolete rou
 I use Pixhawk standard I2C connectors for convenience, feeding 3.3V to its VCC rail. BNO055 IMU is connected to it.
 
 ![IMG_20230119_174749811_HDR](https://user-images.githubusercontent.com/16037285/213751203-675d83b6-2036-40fb-a05b-09158c08dd71.jpg)
+![IMG_20230121_113657264_HDR](https://user-images.githubusercontent.com/16037285/213880585-62cd0c68-21be-45c6-a729-305838dba4c0.jpg)
 ![IMG_20230119_185616996](https://user-images.githubusercontent.com/16037285/213751208-5553f129-1f50-4218-9046-555f3a39df97.jpg)
 ![IMG_20230119_182203839_HDR](https://user-images.githubusercontent.com/16037285/213751214-75b6443a-e198-40f2-85ef-94ef069d0949.jpg)
 
-**See full manual in the Docs folder**
+## See full manual in the Docs folder
 
 ![IMG_20230120_103156610](https://user-images.githubusercontent.com/16037285/213752879-3c88968a-8206-4ac0-acd0-9c275ddac683.jpg)
 ![IMG_20221217_095711148](https://user-images.githubusercontent.com/16037285/213755321-cc3408be-14e7-410d-8cd5-442953a7a80b.jpg)
