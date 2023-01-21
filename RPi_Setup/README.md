@@ -110,7 +110,7 @@ now you can run these commands in separate terminals (even across your LAN machi
 
 ### 3. Compile ROS2 driver for Create 1 base
 
-For iRobot Create 1 (2004) and other roombas of 400, 500 and 600 series (https://en.wikipedia.org/wiki/IRobot_Create).
+For iRobot Create 1 (released in 2004, based on Roomba 500 series) and other roombas of 400, 500 and 600 series (https://en.wikipedia.org/wiki/IRobot_Create).
 
 It can be connected via FTDI USB Serial (/dev/ttyUSB0 on turtle) or via TTL Serial (pins 1-RXD and 2-TXD on the DB25 connector). A desktop machine can connect via RS232 serial, using special iRobot Create serial cable (/dev/ttyS0 on desktop).
 
