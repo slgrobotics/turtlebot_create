@@ -28,6 +28,10 @@ It is a good idea to update:
     sudo apt full-upgrade
     sudo apt clean    (purges packages from SD   https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=133691)
 
+You may want to disable unattended updates to avoid high CPU loads after booting:
+
+    sudo dpkg-reconfigure unattended-upgrades      (say No)
+
 Have some extra networking packages installed:
 
     sudo apt install raspi-config
@@ -114,30 +118,33 @@ For iRobot Create 1 (released in 2004, based on Roomba 500 series) and other roo
 
 It can be connected via FTDI USB Serial (/dev/ttyUSB0 on turtle) or via TTL Serial (pins 1-RXD and 2-TXD on the DB25 connector). A desktop machine can connect via RS232 serial, using special iRobot Create serial cable (/dev/ttyS0 on desktop).
 
-Follow this guide:
+Generally, we follow this guide:
 
     https://github.com/girvenavery2022/create_robot/tree/galactic
+    
+Review the following. Create 1 requires analog gyro, connected to pin 4 of its Cargo Bay DB25:
+
+    https://github.com/AutonomyLab/create_robot/issues/28
+    https://github.com/slgrobotics/create_robot/tree/foxy
+    https://github.com/slgrobotics/libcreate
+    https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot
 
 here are all commands:
 
-    cd ~
-    mkdir -p create_ws/src  
-    cd create_ws
+    mkdir -p ~/create_robot_ws/src
+    cd ~/create_robot_ws/src
+    git clone https://github.com/slgrobotics/create_robot.git --branch foxy
+    git clone https://github.com/slgrobotics/libcreate.git
+    colcon build
 
-    cd ~/create_ws/src
-    git clone https://github.com/autonomylab/create_robot.git
-    git clone https://github.com/AutonomyLab/libcreate
-
-    cd ~/create_ws
-    rosdep update  
-    rosdep install --from-paths src --ignore-src -r -y      (will ask for ros password)
-
-    cd ~/create_ws
+    cd ~/create_robot_ws
     vi src/create_robot/create_bringup/config/default.yaml    (edit port - /dev/ttyS0 on desktop, /dev/ttyUSB0 on turtle)
     colcon build
 
     source ~/create_ws/install/setup.bash
     ros2 launch create_bringup create_1.launch
+        or, for Roomba 500/600 series:
+    ros2 launch create_bringup create_2.launch
     
 At this point you should be able to use teleop **from your desktop machine:**
 
