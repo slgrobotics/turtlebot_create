@@ -50,8 +50,7 @@ ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=true
 ros2 run turtlebot3_teleop teleop_keyboard
 ```
 
-## 3. Modify the working copy of Turtlebot3 software to run with Create hardware drivers ##
-
+## 3. We modified Turtlebot3 software to run with Create hardware drivers ##
 We modified one launch file to NOT run the physical Turtlebot3 drivers. Our drivers on the Raspberry Pi are already active on the network,  publishing information in */scan, /imu /odom, /joint_states* and other topics. The *Create Base* node will subscribe to */cmd_vel* topic published by teleop.
 
 You can find a modified copy of *robot.launch.py* file in this folder:
@@ -59,7 +58,6 @@ You can find a modified copy of *robot.launch.py* file in this folder:
     ~/turtlebot_create_ws/src/turtlebot3/turtlebot3/turtlebot3_bringup/launch/robot.launch.py
 
 ## 4. Teleoperate your Turtlebot using keyboard or joystick teleop ##
-
 ```
 cd ~/turtlebot_create_ws
 colcon build
