@@ -19,7 +19,9 @@ def generate_launch_description():
                 'odom_frame': 'odom',
                 'latch_cmd_duration': 0.5,
                 'loop_hz': 5.0,
-                'publish_tf': True
+                'publish_tf': True,
+                'gyro_offset': 12.0,
+                'gyro_scale': 1.02
             }]
         ),
         Node(
