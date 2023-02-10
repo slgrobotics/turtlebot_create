@@ -20,8 +20,9 @@ def generate_launch_description():
                 'latch_cmd_duration': 0.5,
                 'loop_hz': 5.0,
                 'publish_tf': True,
-                'gyro_offset': 12.0,
-                'gyro_scale': 1.02
+                'gyro_offset': 0.0,
+                'gyro_scale': 1.3
+
             }]
         ),
         Node(
@@ -52,7 +53,7 @@ def generate_launch_description():
                 'connection_type': 'i2c',
                 'i2c_bus': 1,
                 'i2c_addr': 0x28,
-                'data_query_frequency': 100,
+                'data_query_frequency': 20,
                 'calib_status_frequency': 0.1,
                 'frame_id': 'imu_link',
                 'operation_mode': 0x0C,
@@ -67,4 +68,3 @@ def generate_launch_description():
             }]
         )
     ])
-	
