@@ -6,7 +6,7 @@ The idea is to take an "old" iRobot Create 1 base, add a Raspberry Pi 3B (or bet
 
 2. For a desktop operation I take full Turtlebot 3 source, remove all base-related nodes from the launch file. The removed topics are now published by the on-board Raspberry Pi, and I can run Cartographer, Navigation and other nodes on the desktop for full ROS2 experience.
 
-I've chosen not to create a fork from ROBOTIS-GIT Turtlebot 3 repository, but rather provide clear instructions and some files. It makes it easier to set up a fully functional Turtlebot from scratch.
+I've chosen to create a fork from ROBOTIS-GIT Turtlebot 3 repository, and also provide here clear instructions and some files. It makes it easier to set up a fully functional Turtlebot from scratch.
 
 ## So, the steps are:
 
