@@ -28,6 +28,11 @@ I use Pixhawk standard I2C connectors for convenience, feeding 3.3V to its VCC r
 ![IMG_20230119_185616996](https://user-images.githubusercontent.com/16037285/213751208-5553f129-1f50-4218-9046-555f3a39df97.jpg)
 ![IMG_20230119_182203839_HDR](https://user-images.githubusercontent.com/16037285/213751214-75b6443a-e198-40f2-85ef-94ef069d0949.jpg)
 
+## Here's an "analog gyro emulator"
+(See https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot):
+
+![IMG_20230209_191916513_HDR](https://user-images.githubusercontent.com/16037285/217976758-1e9bc7c2-e8a8-45b0-a2b9-337abd95e2cf.jpg)
+
 ## See full manual in the Docs folder
 
 ![IMG_20230120_103156610](https://user-images.githubusercontent.com/16037285/213752879-3c88968a-8206-4ac0-acd0-9c275ddac683.jpg)
