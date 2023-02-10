@@ -23,45 +23,38 @@ For binary installation:
     sudo apt install gazebo
     sudo apt install ros-humble-turtlebot3*
 
-### b. We also set up sources of the same Turtlebot3 packages in a working folder, where we can modify just a few files to make it work with our hardware. ###
+### b. We also set up sources of the same Turtlebot3 packages in a working folder. We modified just a few files to make it work with our hardware. ###
 
-Install sources in a working directory:
-
-    mkdir -p ~/turtlebot_create_ws/src
-    cd turtlebot_create_ws/
-    wget https://raw.githubusercontent.com/ROBOTIS-GIT/turtlebot3/humble-devel/turtlebot3.repos
-    vcs import src<turtlebot3.repos
-
-    rosdep update
-    rosdep install --from-paths src --ignore-src -y
-
-You want to append the following to .barshrc
-
-    export TURTLEBOT3_MODEL=waffle
+See https://github.com/slgrobotics/turtlebot3/tree/ros2-devel
 
 ## 2. Now you can try Gazebo simulation and a keyboard or joystick teleop: ##
 
+When using standard binary installation:
 ```
 source  /opt/ros/humble/setup.bash
 export TURTLEBOT3_MODEL=waffle
 ```
+When using compiled sources from slgrobotics:
+```
+source ~/turtlebot_create_ws/install/setup.bash
+export TURTLEBOT3_MODEL=create_1
+```
+
 *Empty world:*          ```ros2 launch turtlebot3_gazebo empty_world.launch.py```
 
 *World with obstacles:* ```ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py```
 
 ```
-export TURTLEBOT3_MODEL=waffle
 ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=true
 
-export TURTLEBOT3_MODEL=waffle
 ros2 run turtlebot3_teleop teleop_keyboard
 ```
 
 ## 3. Modify the working copy of Turtlebot3 software to run with Create hardware drivers ##
 
-We need to modify one launch file to NOT run the physical Turtlebot3 drivers. Our drivers on the Raspberry Pi are already active on the network,  publishing information in */scan, /imu /odom, /joint_states* and other topics. The *Create Base* node will subscribe to */cmd_vel* topic published by teleop.
+We modified one launch file to NOT run the physical Turtlebot3 drivers. Our drivers on the Raspberry Pi are already active on the network,  publishing information in */scan, /imu /odom, /joint_states* and other topics. The *Create Base* node will subscribe to */cmd_vel* topic published by teleop.
 
-Find a modified copy of *robot.launch.py* file in this folder and copy it here:
+You can find a modified copy of *robot.launch.py* file in this folder:
 
     ~/turtlebot_create_ws/src/turtlebot3/turtlebot3/turtlebot3_bringup/launch/robot.launch.py
 
