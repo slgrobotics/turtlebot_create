@@ -40,4 +40,4 @@ Install **Rviz IMU visualizer plugin** from  https://github.com/CCNYRoboticsLab/
 
 The IMU plugin is described here for ROS1, but works fine in ROS2 Humble: http://wiki.ros.org/rviz_imu_plugin 
 
-**Now you can proceed to RPi_Setup folder**
+**Now you can proceed to RPi_Setup folder:**  https://github.com/slgrobotics/turtlebot_create/tree/main/RPi_Setup
