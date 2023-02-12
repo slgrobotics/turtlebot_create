@@ -64,13 +64,53 @@ colcon build
 source ~/turtlebot_create_ws/install/setup.bash   (this overrides binary installation pointers)
 ros2 launch turtlebot3_bringup robot.launch.py
 ```
-**These can run in separate terminals from the binaries in /op/ros:**
+**These can run in separate terminals from the binaries in /opt/ros:**
 ```
 ros2 run turtlebot3_teleop teleop_keyboard
 
 ros2 launch turtlebot3_cartographer cartographer.launch.py
 ```
 It is a good time to run **rqt** and **rqt_graph** to explore nodes and topics.
+
+## Tuning your Gyro (only for Create 1) ##
+
+If you have Create 1 base - it needs a gyro to compensate for a firmware bug (see https://github.com/AutonomyLab/create_robot/issues/28).
+
+Any analog gyro will do. The original accessory interface board that plugs into the Cargo Bay DB25 connector has an analog gyro, ADXR613. 
+
+I had to create an "analog gyro emulator" by connecting arduino mini to MPU9250 - and producing the same analog signal via PWM (https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot).
+
+Create does not read the gyro (or emulator) - it just passes it through from analog input (pin 4 of Cargo Bay) to the serial stream (which sends all sensor data every 15ms).
+
+Your gyro will produce an ADC value between 0 and 1024, hopefully around 512, when stationary, and that value will vary with rotation (reflecting, naturally, turn rate).
+
+Autonomy Lab Create driver with my modifications reads this value, adds gyro_offset and multiplies it by gyro_scale - and then integrates it (by dt) to produce angle.
+
+https://github.com/slgrobotics/libcreate/blob/master/src/create.cpp : 148
+```
+// This is a fix involving analog gyro connected to pin 4 of Cargo Bay:
+uint16_t angleRaw = GET_DATA(ID_CARGO_BAY_ANALOG_SIGNAL);
+float angleF = -((float)angleRaw - 512.0 + getGyroOffset()) * dt;
+angleF = angleF * 0.25 * getGyroScale(); // gyro calibration factor
+//std::cout<< "dt: " << dt << " distanceRaw: " << distanceRaw << " angleRaw: " << angleRaw << " angleF: " << angleF << std::endl;
+deltaYaw = angleF * (util::PI / 180.0); // D2R
+```
+
+Create driver needs *angle* to correctly publish *odom* topic, which is important for robot localization as it moves. Correct wheel joints rotation is the best indication of normal operation of odometry calculations.
+
+You will need to calibrate your gyro, by tweaking parameters (see launch file at https://github.com/slgrobotics/turtlebot_create/tree/main/RPi_Setup/launch ).
+
+ I describe this process as follows (at https://github.com/slgrobotics/create_robot/tree/foxy): 
+
+**Tuning gyro_offset and gyro_scale**
+
+You need to bring up Rviz2 to see wheel joints rotating on a map. The best way I found was to follow setup all the way to running Cartographer.
+
+Analog gyro signal, as read by Create 1, is expected to be 512 when the robot is stationary. If it differs (say, 202 when robot doesn't move) - gyro_offset compensates for that (say, 512-202=310). Adjust it till wheel joints do not move.
+
+The turn rate scale, as reported by gyro, usually needs adjustment. You need to drive the robot forward a couple meters and watch the odom point in Rviz to stay at the launch point. Then turn the robot (using teleop) and watch the odom point move. Adjust the gyro_scale for minimal odom displacement during rotations.
+
+Once the parameters are adjusted, robot will be able to map the area, and the odom point will not move dramatically when the robot drives and turns in any direction.
 
 ## 5. Map your room by running ROS2 Cartographer package ##
 
