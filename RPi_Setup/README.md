@@ -320,4 +320,4 @@ Useful commands:
 
 You can now reboot Raspberry Pi, and the three drivers will start automatically and show up in **rqt** and **rqt_graph**
 
-**Now you can proceed to Turtle_Setup folder**
+**Now you can proceed to Turtle_Setup folder:**   https://github.com/slgrobotics/turtlebot_create/tree/main/Turtle_Setup
