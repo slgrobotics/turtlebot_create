@@ -10,9 +10,9 @@ I've chosen to create a fork from ROBOTIS-GIT Turtlebot 3 repository, and also p
 
 ## So, the steps are:
 
-1. Set up ROS2 on your Linux desktop machine (mine is Intel I5 with 8GB memory) - folder *Desktop_Setup*
-2. Set up ROS2 and robot drivers on Raspberry Pi (3B, 4) - folder *RPi_Setup*
-3. Teleoperate the robot using the desktop's joystick - folder *Turtle_Setup*
+1. Set up ROS2 on your Linux desktop machine (mine is Intel I5 with 8GB memory) - folder *[Desktop_Setup](https://github.com/slgrobotics/turtlebot_create/tree/main/Desktop_Setup)*
+2. Set up ROS2 and robot drivers on Raspberry Pi (3B, 4) - folder *[RPi_Setup](https://github.com/slgrobotics/turtlebot_create/tree/main/RPi_Setup)*
+3. Teleoperate the robot using the desktop's joystick - folder *[Turtle_Setup](https://github.com/slgrobotics/turtlebot_create/tree/main/Turtle_Setup)*
 4. Map your room by running ROS2 Cartographer package
 5. Navigate around by using Nav2 package
 6. Optionally, explore cameras and other devices on the robot
@@ -28,7 +28,8 @@ I use Pixhawk standard I2C connectors for convenience, feeding 3.3V to its VCC r
 ![IMG_20230119_185616996](https://user-images.githubusercontent.com/16037285/213751208-5553f129-1f50-4218-9046-555f3a39df97.jpg)
 ![IMG_20230119_182203839_HDR](https://user-images.githubusercontent.com/16037285/213751214-75b6443a-e198-40f2-85ef-94ef069d0949.jpg)
 
-## Here's an "analog gyro emulator"
+## Here's an "analog gyro emulator" (only needed for Create 1, if you don't have analog gyro or genuine accessory board)
+
 (See https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot):
 
 ![IMG_20230209_191916513_HDR](https://user-images.githubusercontent.com/16037285/217976758-1e9bc7c2-e8a8-45b0-a2b9-337abd95e2cf.jpg)
