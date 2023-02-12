@@ -174,6 +174,7 @@ ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/
   or
 ros2 run rviz2 rviz2 -d /opt/ros/humble/share/nav2_bringup/rviz/nav2_default_view.rviz
 ```
+You should be able to assign a destination point and navigate to it: https://youtu.be/jEXqNpXsQSc
 
 ## 7. Optionally, explore cameras and other devices on the robot ##
 
