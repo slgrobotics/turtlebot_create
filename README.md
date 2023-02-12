@@ -17,6 +17,17 @@ I've chosen to create a fork from ROBOTIS-GIT Turtlebot 3 repository, and also p
 5. Navigate around by using Nav2 package
 6. Optionally, explore cameras and other devices on the robot
 
+## Here are links to GitHub repositories you will need:
+
+https://github.com/slgrobotics/create_robot/tree/foxy       **-- use "foxy" branch!**
+
+https://github.com/slgrobotics/libcreate
+
+https://github.com/slgrobotics/turtlebot3/tree/ros2-devel       **-- use "ros2-devel" branch!**
+
+https://github.com/slgrobotics/turtlebot3_simulations/tree/ros2-devel       **-- use "ros2-devel" branch!**
+
+
 ## Below is my Turtlebot setup
 
 I have a powered USB hub ("Belkin") for the Laser scanner, and some obsolete router 9V power for my prior experiments. The Raspberry Pi and USB hub are powered from a 3S LiPo battery through a 5V Buck converter. The Raspberry Pi 3B is connected to Create 1 Base via FTDI USB-to-TTL-Serial adapter, pins 1,2 and 14.
@@ -28,13 +39,12 @@ I use Pixhawk standard I2C connectors for convenience, feeding 3.3V to its VCC r
 ![IMG_20230119_185616996](https://user-images.githubusercontent.com/16037285/213751208-5553f129-1f50-4218-9046-555f3a39df97.jpg)
 ![IMG_20230119_182203839_HDR](https://user-images.githubusercontent.com/16037285/213751214-75b6443a-e198-40f2-85ef-94ef069d0949.jpg)
 
-## Here's an "analog gyro emulator" (only needed for Create 1, if you don't have analog gyro or genuine accessory board)
-
-(See https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot):
+## Here's my "analog gyro emulator"
+only needed for Create 1, if you don't have analog gyro or genuine accessory board. See [this link](https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot):
 
 ![IMG_20230209_191916513_HDR](https://user-images.githubusercontent.com/16037285/217976758-1e9bc7c2-e8a8-45b0-a2b9-337abd95e2cf.jpg)
 
-## See full manual in the Docs folder
+## See full manual in the *[Docs](https://github.com/slgrobotics/turtlebot_create/tree/main/Docs)* folder
 
 ![IMG_20230120_103156610](https://user-images.githubusercontent.com/16037285/213752879-3c88968a-8206-4ac0-acd0-9c275ddac683.jpg)
 ![IMG_20221217_095711148](https://user-images.githubusercontent.com/16037285/213755321-cc3408be-14e7-410d-8cd5-442953a7a80b.jpg)
