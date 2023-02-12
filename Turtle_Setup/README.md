@@ -108,15 +108,73 @@ You need to bring up Rviz2 to see wheel joints rotating on a map. The best way I
 
 Analog gyro signal, as read by Create 1, is expected to be 512 when the robot is stationary. If it differs (say, 202 when robot doesn't move) - gyro_offset compensates for that (say, 512-202=310). Adjust it till wheel joints do not move.
 
-The turn rate scale, as reported by gyro, usually needs adjustment. You need to drive the robot forward a couple meters and watch the odom point in Rviz to stay at the launch point. Then turn the robot (using teleop) and watch the odom point move. Adjust the gyro_scale for minimal odom displacement during rotations.
+The turn rate scale, as reported by gyro, usually needs adjustment. You need to drive the robot forward a couple meters and watch the odom point in Rviz to stay at the launch point. Then turn the robot (using teleop) and watch the *odom* point move. Adjust the gyro_scale for minimal odom displacement during rotations.
 
 Once the parameters are adjusted, robot will be able to map the area, and the odom point will not move dramatically when the robot drives and turns in any direction.
 
 ## 5. Map your room by running ROS2 Cartographer package ##
 
-Once you have your Cartographer running ... [ to be continued ]
+Once you have your Cartographer running and the *odom* point not moving too much on turns, you will see that the map in Rviz is updated as the robot moves around. Try covering whole available area:
+
+![Map4](https://user-images.githubusercontent.com/16037285/218316215-ae37289f-6fa4-40dd-967b-281c92a759e0.jpg)
+
+When done, save the map as follows (produces two files - "my_map.pgm" and "my_map.yaml"):
+```
+ros2 run nav2_map_server map_saver_cli -f my_map
+```
+See https://github.com/ros-industrial/ros2_i_training/blob/main/workshop/source/_source/navigation/ROS2-Cartographer.md
 
 ## 6. Navigate around by using Nav2 package ##
 
+Here are some useful links on using NAV2:
+
+https://navigation.ros.org/tutorials/docs/navigation2_on_real_turtlebot3.html
+
+https://navigation.ros.org/getting_started/index.html
+
+https://automaticaddison.com/the-ultimate-guide-to-the-ros-2-navigation-stack/
+
+https://automaticaddison.com/navigation-and-slam-using-the-ros-2-navigation-stack/
+
+At this point your Create robot is complete, it boots up on power-up and requires no additional installations or command line commands. It is truely "headless". Your further work is done on your Desktop machine.
+
+You need to install NAV2 packages on your Desktop machine:
+```
+sudo apt install ros-humble-navigation2
+sudo apt install ros-humble-nav2-bringup
+```
+Now the simulation should work:
+```
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/opt/ros/humble/share/turtlebot3_gazebo/models
+ros2 launch nav2_bringup tb3_simulation_launch.py headless:=False
+```
+Possible launch files (from binary install):
+```
+/opt/ros/humble/share/nav2_bringup/launch
+/opt/ros/humble/share/nav2_bringup/launch/navigation_launch.py
+/opt/ros/humble/share/nav2_bringup/launch/localization_launch.py
+/opt/ros/humble/share/nav2_bringup/launch/tb3_simulation_launch.py
+/opt/ros/humble/share/nav2_bringup/launch/slam_launch.py
+/opt/ros/humble/share/nav2_bringup/launch/bringup_launch.py
+/opt/ros/humble/share/nav2_bringup/launch/multi_tb3_simulation_launch.py
+/opt/ros/humble/share/nav2_bringup/launch/rviz_launch.py
+```
+### On a real robot: ###
+
+Once the Turtlebot boots up and produces */battery/voltage* in *rqt*: 
+```
+TURTLEBOT3_MODEL=create_1
+ros2 launch turtlebot3_bringup robot.launch.py
+
+export TURTLEBOT3_MODEL=waffle
+ros2 launch nav2_bringup bringup_launch.py use_sim_time:=False autostart:=False map:=/home/sergei/my_map.yaml
+
+export TURTLEBOT3_MODEL=waffle
+ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/nav2_default_view.rviz
+  or
+ros2 run rviz2 rviz2 -d /opt/ros/humble/share/nav2_bringup/rviz/nav2_default_view.rviz
+```
+
 ## 7. Optionally, explore cameras and other devices on the robot ##
 
+So far, my attempts to add Kinect (first generation) or OAK-D Lite produces very high CPU utilization and very low FPS on my Raspberry Pi 3B.
