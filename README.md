@@ -39,7 +39,17 @@ I use Pixhawk standard I2C connectors for convenience, feeding 3.3V to its VCC r
 ![IMG_20230119_185616996](https://user-images.githubusercontent.com/16037285/213751208-5553f129-1f50-4218-9046-555f3a39df97.jpg)
 ![IMG_20230119_182203839_HDR](https://user-images.githubusercontent.com/16037285/213751214-75b6443a-e198-40f2-85ef-94ef069d0949.jpg)
 
-## Here's my "analog gyro emulator"
+## If you have genuine analog gyro connected to DB25 Pin 4 - do nothing
+
+![IMG_9755](https://user-images.githubusercontent.com/16037285/228358282-196188dc-9f45-4dbe-9b6b-1d3374c00cea.JPG)
+
+### Note from Ross Lunan:
+If using Kinect and a Cargo Bay Expansion Board (from IHeartEngineering) that has a Gyro and 12 v regulator to power the Kinect. The Kinect power is enabled by a +5v from the "Digital Output 0".
+This enabling was originally done by a "Breaker" python script that runs in the original turtlebot_bringup/minimal.launch.
+The Autonomy driver does not have a code to drive this Digital Output (Create OI Index 147). But you can jury-rig a wire jumper (or small resistor) between DB25 Pins 8 (Switched 5V) to Pin 19 (Digital Output 0 a.k.a. Regulator "Enable" Pin).
+Works like a charm providing regulated +12 v/1.5 A for the onboard Kinect.
+
+## Instead of analog gyro, here's my "analog gyro emulator" (Arduino + MPU9250)
 only needed for Create 1, if you don't have analog gyro or genuine accessory board. See [this link](https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot):
 
 ![IMG_20230209_191916513_HDR](https://user-images.githubusercontent.com/16037285/217976758-1e9bc7c2-e8a8-45b0-a2b9-337abd95e2cf.jpg)
