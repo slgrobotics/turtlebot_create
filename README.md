@@ -46,7 +46,7 @@ I use Pixhawk standard I2C connectors for convenience, feeding 3.3V to its VCC r
 ### Note from Ross Lunan:
 If using Kinect and a Cargo Bay Expansion Board (from IHeartEngineering) that has a Gyro and 12 v regulator to power the Kinect. The Kinect power is enabled by a +5v from the "Digital Output 0".
 This enabling was originally done by a "Breaker" python script that runs in the original turtlebot_bringup/minimal.launch.
-The Autonomy driver does not have a code to drive this Digital Output (Create OI Index 147). But you can jury-rig a wire jumper (or small resistor) between DB25 Pins 8 (Switched 5V) to Pin 19 (Digital Output 0 a.k.a. Regulator "Enable" Pin).
+The Autonomy driver does not have a code to drive this Digital Output (Create OI Index 147). But you can jury-rig a wire jumper (or small resistor, 100..150 Ohm) between DB25 Pins 8 (Switched 5V) to Pin 19 (Digital Output 0 a.k.a. Regulator "Enable" Pin).
 Works like a charm providing regulated +12 v/1.5 A for the onboard Kinect.
 
 ## Instead of analog gyro, here's my "analog gyro emulator" (Arduino + MPU9250)
