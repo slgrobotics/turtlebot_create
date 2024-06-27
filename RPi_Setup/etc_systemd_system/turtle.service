@@ -1,6 +1,8 @@
 # /etc/systemd/system/turtle.service
 [Unit]
 Description=turtle
+StartLimitIntervalSec=60
+StartLimitBurst=5
 
 [Service]
 Type=simple
@@ -9,8 +11,6 @@ Group=ros
 WorkingDirectory=/home/ros/launch
 ExecStart=/home/ros/launch/bootup_launch.sh
 Restart=always
-StartLimitIntervalSec=60
-StartLimitBurst=5
 
 [Install]
 WantedBy=multi-user.target
