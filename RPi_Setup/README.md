@@ -280,44 +280,55 @@ BNO055 IMU (via UART or I2C - Python) - seems well supported, active development
 
 With Create base, XV11 Laser Scanner and BNO055 IMU ROS2 nodes tested, it is time to set up autostart on boot for hands-free operation.
 
-We need the following files (copy them from this repository):
+We need some files (copy them from this repository, under and around https://github.com/slgrobotics/turtlebot_create/tree/main/RPi_Setup/launch):
 
-1. Combined launch file on turtle.local: /home/ros/launch/myturtle.py
+1. Create and populate launch folder: /home/ros/launch
+```
+mkdir ~/launch
+ -- place myturtle.py and bootup_launch.sh here --
+chmod +x ~/launch/bootup_launch.sh    
+```
+Try running the _bootup_launch.sh_ from the command line to see if anything fails.
 
-2. A test run file /home/ros/run.sh
+2. Create service description file - /etc/systemd/system/robot.service :
+```
+# /etc/systemd/system/robot.service
+[Unit]
+Description=turtle
+StartLimitIntervalSec=60
+StartLimitBurst=5
 
-3. An autostart file /home/ros/launch/bootup_launch.sh
+[Service]
+Type=simple
+User=ros
+Group=ros
+WorkingDirectory=/home/ros/launch
+ExecStart=/home/ros/launch/bootup_launch.sh
+Restart=always
 
-4. A service file /etc/systemd/system/turtle.service
+[Install]
+WantedBy=multi-user.target
+```
 
-Set file permissions:
+3. Enable service:
+```
+sudo systemctl daemon-reload
+sudo systemctl enable turtle.service
+sudo systemctl start turtle.service
+```
 
-    chmod +x ~/launch/bootup_launch.sh    
-    chmod +x ~/run.sh
+Here are some useful commands:
+```
+systemctl status turtle.service
+systemctl cat turtle.service
+sudo systemctl reload-or-restart turtle.service
+sudo journalctl -xeu turtle.service
 
-Try running all three drivers from the terminal:
-
-    cd
-    ./run.sh
-
-Enable service:
-
-    sudo systemctl daemon-reload
-    sudo systemctl enable turtle.service
-    sudo systemctl start turtle.service
-
-Useful commands:
-
-    systemctl status turtle.service
-    systemctl cat turtle.service
-    sudo systemctl reload-or-restart turtle.service
-    sudo journalctl -xeu turtle.service
-
-    sudo ls -al /etc/systemd/system/turtle.service
-    sudo ls -al /etc/systemd/system/turtle.service.d/override.conf
-    sudo ls -al /etc/systemd/system/multi-user.target.wants/turtle.service
-    ps -ef | grep driver
-
+sudo ls -al /etc/systemd/system/turtle.service
+sudo ls -al /etc/systemd/system/turtle.service.d/override.conf
+sudo ls -al /etc/systemd/system/multi-user.target.wants/turtle.service
+ps -ef | grep driver
+```
 You can now reboot Raspberry Pi, and the three drivers will start automatically and show up in **rqt** and **rqt_graph**
 
-**Now you can proceed to Turtle_Setup folder:**   https://github.com/slgrobotics/turtlebot_create/tree/main/Turtle_Setup
+**Now you can proceed to Desktop (Turtle_Setup) folder:**   https://github.com/slgrobotics/turtlebot_create/tree/main/Turtle_Setup
