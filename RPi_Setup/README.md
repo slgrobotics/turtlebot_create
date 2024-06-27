@@ -316,6 +316,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable turtle.service
 sudo systemctl start turtle.service
 ```
+If all went well, the service will start automatically after you reboot the RPi, and all related nodes will show up on _rpt_ and _rpt_graph_
 
 Here are some useful commands:
 ```
