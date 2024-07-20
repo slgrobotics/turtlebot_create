@@ -188,51 +188,35 @@ ros2 param set /teleop_twist_joy_node enable_turbo_button 3
 
 Surreal XV Lidar controller v1.2 (Neato Lidar) - connected via USB
 
-    https://github.com/getSurreal/XV_Lidar_Controller  - Teensy software
-    https://www.getsurreal.com/product/lidar-controller-v2-0/   - hardware (Teensy 2.0)
+https://github.com/getSurreal/XV_Lidar_Controller  - Teensy software
 
-Connect to the USB port at 115200 baud. (minicom -D /dev/ttyACM0 -b 115200)
+https://www.getsurreal.com/product/lidar-controller-v2-0/   - hardware (Teensy 2.0)
 
-ROS2 driver port (by Mark Johnston): https://github.com/mjstn/xv_11_driver
+Connect to the USB port at 115200 baud. (test with ```minicom -D /dev/ttyACM0 -b 115200```)
 
-The following file needs editing (as  declare_parameter() now requires a default value as a second parameter):
+Original ROS2 driver port (by Mark Johnston): https://github.com/mjstn/xv_11_driver
 
-    /home/sergei/xv_11_ws/src/xv_11_driver/src/xv_11_driver.cpp
-
-```
-    int main(int argc, char * argv[])
-    {
-      rclcpp::init(argc, argv);
-
-      auto node = rclcpp::Node::make_shared("xv11_laser");
-
-      node->declare_parameter("port",XV11_PORT_DEFAULT);
-      auto port_param      = rclcpp::Parameter("port", XV11_PORT_DEFAULT);
-
-      node->declare_parameter("baud_rate", XV11_BAUD_RATE_DEFAULT);
-      auto baud_rate_param = rclcpp::Parameter("baud_rate", XV11_BAUD_RATE_DEFAULT);
-
-      node->declare_parameter("frame_id", XV11_FRAME_ID_DEFAULT);
-      auto frame_id_param  = rclcpp::Parameter("frame_id", XV11_FRAME_ID_DEFAULT);
-
-      node->declare_parameter("firmware_version", XV11_FIRMWARE_VERSION_DEFAULT);
-      auto firmware_param  = rclcpp::Parameter("firmware_version", XV11_FIRMWARE_VERSION_DEFAULT);
-```
+In my fork I modified one file, ```.../xv_11_driver/src/xv_11_driver.cpp```, as _declare_parameter()_ now requires a default value as a second parameter.
+I also redefined ```XV11_PORT_DEFAULT``` as ```/dev/ttyACM0```
 
 Commands to compile and install:
+```
+mkdir -p ~/xv_11_ws/src
+cd ~/xv_11_ws/src
+git clone https://github.com/slgrobotics/xv_11_driver.git
 
-    mkdir -p ~/xv_11_ws/src
-    cd ~/xv_11_ws/src
-    git clone https://github.com/mjstn/xv_11_driver.git
-    
-      (edit the xv_11_driver/src/xv_11_driver.cpp here - also define XV11_PORT_DEFAULT as /dev/ttyACM0)
+  (edit the xv_11_driver/src/xv_11_driver.cpp here - XV11_PORT_DEFAULT if your port is not /dev/ttyACM0)
 
-    cd ..
-    colcon build
-    source ~/xv_11_ws/install/setup.bash
-    ros2 run xv_11_driver xv_11_driver &
+cd ..
+colcon build
+```
+Try running it, see _/scan_ messages in rqt on the Desktop:
+```
+source ~/xv_11_ws/install/setup.bash
+ros2 run xv_11_driver xv_11_driver &
+```
 
-Rviz **on your desktop machine** needs at least a static transform, to relate the grid to the laser frame ("neato_laser" in this case).
+Rviz **on your desktop machine** needs at least a static transform, to relate the grid to the laser frame ("_neato_laser_" in this case).
 
     rviz2 &
     ros2 run tf2_ros static_transform_publisher 0 0 0 0 0 0 map neato_laser &
