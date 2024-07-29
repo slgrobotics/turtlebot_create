@@ -8,11 +8,11 @@ Most of the power hungry ROS2 Turtlebot software (nodes) - like Cartographer and
 
 Here is how we set up your **desktop machine** with ROS2 Turtlebot3 software.
 
-## 1. Set up ROBOTIS-GIT Turtlebot3 software - binary and a working copy ##
+## 1. Set up ROBOTIS-GIT Turtlebot3 software - binary and a working copy
 
 The idea is to take a well designed Turtlebot software package and make only necessary modifications to adapt it to our hardware. 
 
-### a. (ROS Humble only) We set up the binary package to be able to try Gazebo simulation and to have all components installed properly in /opt/ros directory. ###
+### a. (ROS Humble only) We set up the binary package to be able to try Gazebo simulation and to have all components installed properly in /opt/ros directory.
 
 See https://github.com/ROBOTIS-GIT/turtlebot3
 
@@ -25,20 +25,20 @@ For binary installation:
 sudo apt install gazebo
 sudo apt install ros-${ROS_DISTRO}-turtlebot3*
 ```
-### b. We also set up sources of the same Turtlebot3 packages in a working folder. We modified just a few files to make it work with our hardware. ###
+### b. Set up sources of the same Turtlebot3 packages in a working folder. We modified just a few files to make it work with our hardware.
 
 Follow instructions here: https://github.com/slgrobotics/turtlebot3
 
-## 2. (ROS Humble only) Now you can try Gazebo simulation and a keyboard or joystick teleop: ##
+## 2. (ROS Humble only) Now you can try Gazebo simulation and a keyboard or joystick teleop:
 
-When using standard binary installation:
+When using standard binary installation :
 ```
 source  /opt/ros/humble/setup.bash
 export TURTLEBOT3_MODEL=waffle
 ```
 When using compiled sources from slgrobotics:
 ```
-source ~/turtlebot_create_ws/install/setup.bash
+source ~/turtlebot3_ws/install/setup.bash
 export TURTLEBOT3_MODEL=create_1
 ```
 
@@ -52,21 +52,27 @@ ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=true
 ros2 run turtlebot3_teleop teleop_keyboard
 ```
 
-## 3. We modified Turtlebot3 software to run with Create hardware drivers ##
-We modified one launch file to NOT run the physical Turtlebot3 drivers. Our drivers on the Raspberry Pi are already active on the network,  publishing information in */scan, /imu /odom, /joint_states* and other topics. The *Create Base* node will subscribe to */cmd_vel* topic published by teleop.
+## 3. Modified Turtlebot3 software to run with Create hardware drivers
 
-You can find a modified copy of *robot.launch.py* file in this folder:
+I modified one launch file to NOT run the physical Turtlebot3 drivers. My drivers on the Raspberry Pi are already active on the network,  publishing information in */scan, /imu /odom, /joint_states* and other topics. The *Create Base* node will subscribe to */cmd_vel* topic published by teleop.
 
-    ~/turtlebot_create_ws/src/turtlebot3/turtlebot3/turtlebot3_bringup/launch/robot.launch.py
+**Note:** The Autonomy Labs "create_driver" node on Raspberry Pi isn't a ROS2 Turtlebot yet and requires an actual ROBOTIS *robot_state_publisher* node - which I run on the Desktop. 
 
-## 4. Teleoperate your Turtlebot using keyboard or joystick teleop ##
+It is spawned by a modified copy of *robot.launch.py* file in this folder: ```~/turtlebot3_ws/src/turtlebot3/turtlebot3/turtlebot3_bringup/launch/robot.launch.py```
+
 ```
-cd ~/turtlebot_create_ws
+cd ~/turtlebot3_ws
 colcon build
-source ~/turtlebot_create_ws/install/setup.bash   (this overrides binary installation pointers)
+
+source ~/turtlebot3_ws/install/setup.bash       # this overrides binary installation pointers
 ros2 launch turtlebot3_bringup robot.launch.py
 ```
-**These can run in separate terminals from the binaries in /opt/ros:**
+
+## 4. Teleoperate your Turtlebot using keyboard or joystick teleop
+
+These can run in separate terminals, and when on Humble - from the binaries in /opt/ros
+
+On Jazzy - ```source ~/turtlebot3_ws/install/setup.bash```
 ```
 ros2 run turtlebot3_teleop teleop_keyboard
 
@@ -74,13 +80,13 @@ ros2 launch turtlebot3_cartographer cartographer.launch.py
 ```
 It is a good time to run **rqt** and **rqt_graph** to explore nodes and topics.
 
-## Tuning your Gyro (only for Create 1) ##
+## Tuning your Gyro (only for Create 1)
 
 If you have Create 1 base - it needs a gyro to compensate for a firmware bug (see https://github.com/AutonomyLab/create_robot/issues/28).
 
-Any analog gyro will do. The original accessory interface board that plugs into the Cargo Bay DB25 connector has an analog gyro, ADXR613. 
+Any analog gyro will do. The original accessory interface board which plugs into the Cargo Bay DB25 connector has an analog gyro, ADXR613. 
 
-I had to create an "analog gyro emulator" by connecting arduino mini to MPU9250 - and producing the same analog signal via PWM (https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot).
+I had to create an _"analog gyro emulator"_ by connecting arduino mini to MPU9250 - and producing the same analog signal via PWM (https://github.com/slgrobotics/Misc/tree/master/Arduino/Sketchbook/MPU9250GyroTurtlebot).
 
 Create does not read the gyro (or emulator) - it just passes it through from analog input (pin 4 of Cargo Bay) to the serial stream (which sends all sensor data every 15ms).
 
@@ -102,7 +108,7 @@ Create driver needs *angle* to correctly publish *odom* topic, which is importan
 
 You will need to calibrate your gyro, by tweaking parameters (see launch file at https://github.com/slgrobotics/turtlebot_create/tree/main/RPi_Setup/launch ).
 
- I describe this process as follows (at https://github.com/slgrobotics/create_robot/tree/foxy): 
+I describe this process as follows (at https://github.com/slgrobotics/create_robot): 
 
 **Tuning gyro_offset and gyro_scale**
 
@@ -114,7 +120,7 @@ The turn rate scale, as reported by gyro, usually needs adjustment. You need to 
 
 Once the parameters are adjusted, robot will be able to map the area, and the odom point will not move dramatically when the robot drives and turns in any direction.
 
-## 5. Map your room by running ROS2 Cartographer package ##
+## 5. Map your room by running ROS2 Cartographer package
 
 Once you have your Cartographer running and the *odom* point not moving too much on turns, you will see that the map in Rviz is updated as the robot moves around. Try covering whole available area:
 
@@ -126,7 +132,7 @@ ros2 run nav2_map_server map_saver_cli -f my_map
 ```
 See https://github.com/ros-industrial/ros2_i_training/blob/main/workshop/source/_source/navigation/ROS2-Cartographer.md
 
-## 6. Navigate around by using Nav2 package ##
+## 6. Navigate around by using Nav2 package
 
 Here are some useful links on using NAV2:
 
@@ -162,7 +168,7 @@ Possible launch files (from _Nav2_ binary install):
 /opt/ros/jazzy/share/nav2_bringup/launch/cloned_multi_tb3_simulation_launch.py
 /opt/ros/jazzy/share/nav2_bringup/launch/rviz_launch.py
 ```
-### On a real robot: ###
+### On a real robot:
 
 Once the Turtlebot boots up and produces */battery/voltage* in *rqt*: 
 ```
@@ -179,6 +185,6 @@ ros2 run rviz2 rviz2 -d /opt/ros/jazzy/share/nav2_bringup/rviz/nav2_default_view
 ```
 You should be able to assign a destination point and navigate to it: https://youtu.be/jEXqNpXsQSc
 
-## 7. Optionally, explore cameras and other devices on the robot ##
+## 7. Optionally, explore cameras and other devices on the robot
 
 So far, my attempts to add Kinect (first generation) or OAK-D Lite produces very high CPU utilization and very low FPS on my Raspberry Pi 3B.
