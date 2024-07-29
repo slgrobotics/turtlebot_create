@@ -2,7 +2,7 @@
 
 By this time you want to have your Raspberry Pi on the turtlebot completely set up in autostart-on-boot mode. Three essentual hardware drivers run on Raspberry Pi "turtle.local" and communicate via your home WiFi *(see RPi_Setup folder)*.
 
-Your *Create Base, XV_11 Laser Scanner* and *BNO055 IMU* nodes and messages should show up in **rqt** and **rqt_graph** on your Linux (Ubuntu 22.04)  desktop machine, which you previously set up with ROS2-Desktop Humble *(see Desktop_setup folder)*.
+Your *Create Base, XV_11 Laser Scanner* and *BNO055 IMU* nodes and messages should show up in **rqt** and **rqt_graph** on your Linux (Ubuntu 22.04)  desktop machine, which you previously set up with ROS2-Desktop Jazzy *(see Desktop_setup folder)*.
 
 Most of the power hungry ROS2 Turtlebot software (nodes) - like Cartographer and Navigation, - run on your desktop machine. Also, **Rviz, Rqt** and **Rqt_graph** with their UI run on the desktop.
 
@@ -12,22 +12,24 @@ Here is how we set up your **desktop machine** with ROS2 Turtlebot3 software.
 
 The idea is to take a well designed Turtlebot software package and make only necessary modifications to adapt it to our hardware. 
 
-### a. We set up the binary package to be able to try Gazebo simulation and to have all components installed properly in /opt/ros directory. ###
+### a. (ROS Humble only) We set up the binary package to be able to try Gazebo simulation and to have all components installed properly in /opt/ros directory. ###
 
 See https://github.com/ROBOTIS-GIT/turtlebot3
+
+**Note:** There is no _turtlebot3_ binary package for ROS Jazzy. Skip this step.
 
 See https://ros2-industrial-workshop.readthedocs.io/en/latest/_source/navigation/ROS2-Turtlebot.html  (adjust foxy -> humble)
 
 For binary installation:
-
-    sudo apt install gazebo
-    sudo apt install ros-humble-turtlebot3*
-
+```
+sudo apt install gazebo
+sudo apt install ros-${ROS_DISTRO}-turtlebot3*
+```
 ### b. We also set up sources of the same Turtlebot3 packages in a working folder. We modified just a few files to make it work with our hardware. ###
 
-See https://github.com/slgrobotics/turtlebot3/tree/ros2-devel
+Follow instructions here: https://github.com/slgrobotics/turtlebot3
 
-## 2. Now you can try Gazebo simulation and a keyboard or joystick teleop: ##
+## 2. (ROS Humble only) Now you can try Gazebo simulation and a keyboard or joystick teleop: ##
 
 When using standard binary installation:
 ```
@@ -140,24 +142,25 @@ At this point your Create robot is complete, it boots up on power-up and require
 
 You need to install NAV2 packages on your Desktop machine:
 ```
-sudo apt install ros-humble-navigation2
-sudo apt install ros-humble-nav2-bringup
+sudo apt install ros-${ROS_DISTRO}-navigation2
+sudo apt install ros-${ROS_DISTRO}-nav2-bringup
 ```
-Now the simulation should work:
+Now the simulation should work (ROS Humble only):
 ```
 export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/opt/ros/humble/share/turtlebot3_gazebo/models
 ros2 launch nav2_bringup tb3_simulation_launch.py headless:=False
 ```
-Possible launch files (from binary install):
+Possible launch files (from _Nav2_ binary install):
 ```
-/opt/ros/humble/share/nav2_bringup/launch
-/opt/ros/humble/share/nav2_bringup/launch/navigation_launch.py
-/opt/ros/humble/share/nav2_bringup/launch/localization_launch.py
-/opt/ros/humble/share/nav2_bringup/launch/tb3_simulation_launch.py
-/opt/ros/humble/share/nav2_bringup/launch/slam_launch.py
-/opt/ros/humble/share/nav2_bringup/launch/bringup_launch.py
-/opt/ros/humble/share/nav2_bringup/launch/multi_tb3_simulation_launch.py
-/opt/ros/humble/share/nav2_bringup/launch/rviz_launch.py
+/opt/ros/jazzy/share/nav2_bringup/launch
+
+/opt/ros/jazzy/share/nav2_bringup/launch/navigation_launch.py
+/opt/ros/jazzy/share/nav2_bringup/launch/localization_launch.py
+/opt/ros/jazzy/share/nav2_bringup/launch/tb3_simulation_launch.py
+/opt/ros/jazzy/share/nav2_bringup/launch/slam_launch.py
+/opt/ros/jazzy/share/nav2_bringup/launch/bringup_launch.py
+/opt/ros/jazzy/share/nav2_bringup/launch/cloned_multi_tb3_simulation_launch.py
+/opt/ros/jazzy/share/nav2_bringup/launch/rviz_launch.py
 ```
 ### On a real robot: ###
 
@@ -172,7 +175,7 @@ ros2 launch nav2_bringup bringup_launch.py use_sim_time:=False autostart:=False 
 export TURTLEBOT3_MODEL=waffle
 ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/nav2_default_view.rviz
   or
-ros2 run rviz2 rviz2 -d /opt/ros/humble/share/nav2_bringup/rviz/nav2_default_view.rviz
+ros2 run rviz2 rviz2 -d /opt/ros/jazzy/share/nav2_bringup/rviz/nav2_default_view.rviz
 ```
 You should be able to assign a destination point and navigate to it: https://youtu.be/jEXqNpXsQSc
 
