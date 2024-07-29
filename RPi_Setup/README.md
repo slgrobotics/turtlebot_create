@@ -1,3 +1,5 @@
+For updated version of this guide see https://github.com/slgrobotics/robots_bringup/tree/main/Docs/Ubuntu-RPi
+
 # This is how to set up your Raspberry Pi 3B (or better)
 
 Once you set up ROS2-Desktop Humble on your desktop computer (see **Desktop_Setup folder**) - you can now set up your on-board Raspberry Pi machine.
