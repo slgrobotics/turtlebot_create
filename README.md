@@ -1,6 +1,8 @@
 # ROS2 Turtlebot based on old iRobot Create 1 platform
 The idea is to take an "old" iRobot Create 1 base, add a Raspberry Pi 3B (or better), a Lidar scanner from Neato botvac, BNO055 IMU - and have it do navigation similar to modern Turtlebot 3.
 
+There is an updated version of this guide, but some info here is still very relevant - https://github.com/slgrobotics/robots_bringup/tree/main/Docs/Create1
+
 ## Software wise there are two projects:
 1. There are drivers on GitHub for Create 1 (also works with Roomba 400, 500, 600 series), BNO055 UMU and XV11 Laser Scanner. They are capable of running on the on-board Raspberry Pi and must be slightly modified and combined with a single launch.py file. On-boot autostart service is created.
 
@@ -19,14 +21,15 @@ I've chosen to create a fork from ROBOTIS-GIT Turtlebot 3 repository, and also p
 
 ## Here are links to GitHub repositories you will need:
 
-https://github.com/slgrobotics/create_robot/tree/foxy       **-- use "foxy" branch!**
+https://github.com/slgrobotics/create_robot
 
 https://github.com/slgrobotics/libcreate
 
-https://github.com/slgrobotics/turtlebot3/tree/ros2-devel       **-- use "ros2-devel" branch!**
+https://github.com/slgrobotics/turtlebot3
 
-https://github.com/slgrobotics/turtlebot3_simulations/tree/ros2-devel       **-- use "ros2-devel" branch!**
+https://github.com/slgrobotics/turtlebot3_simulations  (does not apply to ROS Jazzy)
 
+https://github.com/slgrobotics/robots_bringup/tree/main
 
 ## Below is my Turtlebot setup
 
