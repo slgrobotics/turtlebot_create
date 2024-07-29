@@ -1,3 +1,5 @@
+Also, see https://github.com/slgrobotics/robots_bringup
+
 # Turtlebot Setup and Operation
 
 By this time you want to have your Raspberry Pi on the turtlebot completely set up in autostart-on-boot mode. Three essentual hardware drivers run on Raspberry Pi "turtle.local" and communicate via your home WiFi *(see RPi_Setup folder)*.
