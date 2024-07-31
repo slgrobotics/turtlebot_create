@@ -1,8 +1,8 @@
 Also, see https://github.com/slgrobotics/robots_bringup
 
-# Turtlebot Setup and Operation
+# Turtlebot Setup and Operation (Desktop side)
 
-By this time you want to have your Raspberry Pi on the turtlebot completely set up in autostart-on-boot mode. Three essentual hardware drivers run on Raspberry Pi "turtle.local" and communicate via your home WiFi *(see RPi_Setup folder)*.
+By this time you want to have your Raspberry Pi on the turtlebot completely set up in autostart-on-boot mode. Three essentual hardware drivers run on Raspberry Pi "turtle.local" and communicate via your home WiFi *(see RPi_Setup folder - https://github.com/slgrobotics/turtlebot_create/tree/main/RPi_Setup)*.
 
 Your *Create Base, XV_11 Laser Scanner* and *BNO055 IMU* nodes and messages should show up in **rqt** and **rqt_graph** on your Linux (Ubuntu 22.04)  desktop machine, which you previously set up with ROS2-Desktop Jazzy *(see Desktop_setup folder)*.
 
@@ -58,9 +58,9 @@ ros2 run turtlebot3_teleop teleop_keyboard
 
 I modified one launch file to NOT run the physical Turtlebot3 drivers. My drivers on the Raspberry Pi are already active on the network,  publishing information in */scan, /imu /odom, /joint_states* and other topics. The *Create Base* node will subscribe to */cmd_vel* topic published by teleop.
 
-**Note:** The Autonomy Labs "create_driver" node on Raspberry Pi isn't a ROS2 Turtlebot yet and requires an actual ROBOTIS *robot_state_publisher* node - which I run on the Desktop. 
+**Note:** The Autonomy Labs "create_driver" node on Raspberry Pi isn't a ROS2 Turtlebot yet and requires an actual ROBOTIS *robot_state_publisher* node - which I run on the Desktop. Other robots (Plucky, Dragger) run this node on their Raspberry Pi.
 
-It is spawned by a modified copy of *robot.launch.py* file in this folder: ```~/turtlebot3_ws/src/turtlebot3/turtlebot3/turtlebot3_bringup/launch/robot.launch.py```
+The *robot_state_publisher* node is spawned on the Desktop by a modified copy of *robot.launch.py* file in this folder: ```~/turtlebot3_ws/src/turtlebot3/turtlebot3/turtlebot3_bringup/launch/robot.launch.py```
 
 ```
 cd ~/turtlebot3_ws
