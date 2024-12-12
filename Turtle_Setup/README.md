@@ -174,7 +174,7 @@ Possible launch files (from _Nav2_ binary install):
 
 Once the Turtlebot boots up and produces */battery/voltage* in *rqt*: 
 ```
-TURTLEBOT3_MODEL=create_1
+export TURTLEBOT3_MODEL=create_1
 ros2 launch turtlebot3_bringup robot.launch.py
 
 export TURTLEBOT3_MODEL=waffle
