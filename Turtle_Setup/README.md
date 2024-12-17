@@ -1,4 +1,6 @@
-Also, see https://github.com/slgrobotics/robots_bringup
+**Note:** this is an outdated version of instructions, based or ROBOTIS turtlebot3 codebase.
+
+For the current version based on my *articubot_one* code see https://github.com/slgrobotics/robots_bringup
 
 # Turtlebot Setup and Operation (Desktop side)
 

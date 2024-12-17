@@ -1,4 +1,6 @@
-For updated version of this guide see https://github.com/slgrobotics/robots_bringup/tree/main/Docs/Ubuntu-RPi
+**Note:** this is an outdated version of instructions, based or ROBOTIS turtlebot3 codebase.
+
+For the current version based on my *articubot_one* code see https://github.com/slgrobotics/robots_bringup/tree/main/Docs/Ubuntu-RPi
 
 # This is how to set up your Raspberry Pi 3B (or better)
 
