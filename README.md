@@ -1,19 +1,17 @@
 # ROS2 Turtlebot based on old iRobot Create 1 platform
 The idea is to take an "old" iRobot Create 1 base, add a Raspberry Pi 3B (or better), a Lidar scanner from Neato botvac, BNO055 IMU - and have it do navigation similar to modern Turtlebot 3.
 
-There is an updated version of this guide, but some info here is still very relevant - https://github.com/slgrobotics/robots_bringup/tree/main/Docs/Create1
+There is an **updated version of this guide**, but some info here is still very relevant - https://github.com/slgrobotics/robots_bringup/tree/main/Docs/Create1
 
 ## Software wise there are two projects:
-1. There are drivers on GitHub for Create 1 (also works with Roomba 400, 500, 600 series), BNO055 UMU and XV11 Laser Scanner. They are capable of running on the on-board Raspberry Pi and must be slightly modified and combined with a single launch.py file. On-boot autostart service is created.
+1. There are drivers on GitHub for Create 1 (also works with Roomba 400, 500, 600 series), BNO055 UMU and XV11 Laser Scanner. They are capable of running on the on-board Raspberry Pi 3B and must be slightly modified and combined with a single launch.py file. On-boot autostart service is created.
 
-2. For a desktop operation I take full Turtlebot 3 source, remove all base-related nodes from the launch file. The removed topics are now published by the on-board Raspberry Pi, and I can run Cartographer, Navigation and other nodes on the desktop for full ROS2 experience.
-
-I've chosen to create a fork from ROBOTIS-GIT Turtlebot 3 repository, and also provide here clear instructions and some files. It makes it easier to set up a fully functional Turtlebot from scratch.
+2. For a desktop operation I run "_turtle_" robot from my https://github.com/slgrobotics/articubot_one repository.
 
 ## So, the steps are:
 
-1. Set up ROS2 on your Linux desktop machine (mine is Intel I5 with 8GB memory) - folder *[Desktop_Setup](https://github.com/slgrobotics/turtlebot_create/tree/main/Desktop_Setup)*
-2. Set up ROS2 and robot drivers on Raspberry Pi (3B, 4) - folder *[RPi_Setup](https://github.com/slgrobotics/turtlebot_create/tree/main/RPi_Setup)*
+1. Set up Ubuntu 24.04 and ROS2 Jazzy on your Linux desktop machine (mine is Intel I7 with 16GB memory) - https://github.com/slgrobotics/robots_bringup/tree/main/Docs/ROS-Jazzy
+2. Set up ROS2 and robot drivers on Raspberry Pi (3B, 4, 5) - folder *[RPi_Setup](https://github.com/slgrobotics/turtlebot_create/tree/main/RPi_Setup)*
 3. Teleoperate the robot using the desktop's joystick - folder *[Turtle_Setup](https://github.com/slgrobotics/turtlebot_create/tree/main/Turtle_Setup)*
 4. Map your room by running ROS2 Cartographer package
 5. Navigate around by using Nav2 package
