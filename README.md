@@ -6,7 +6,7 @@ The idea is to take an "old" iRobot Create 1 base, add a Raspberry Pi 3B (or bet
 ## Software wise there are two projects:
 1. There are drivers on GitHub for Create 1 (also works with Roomba 400, 500, 600 series), BNO055 UMU and XV11 Laser Scanner. They are capable of running on the on-board Raspberry Pi 3B and must be slightly modified and combined with a single launch.py file. On-boot autostart service is created.
 
-2. For a desktop operation I run "_turtle_" robot from my "articubot_one" repository.
+2. If using RPi 3B - for a desktop operation I run "_turtle_" robot from my "articubot_one" repository. For RPi 4 or 5 - just run _RViz2_ as described in the updated guide.
   
 ## So, the steps are:
 
