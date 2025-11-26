@@ -1,3 +1,5 @@
+Please visit my [main project Wiki](https://github.com/slgrobotics/articubot_one/wiki) for more information.
+
 There is an **updated version of this guide** - https://github.com/slgrobotics/robots_bringup/tree/main/Docs/Create1 - but some info here is still very relevant 
 
 # ROS2 Turtlebot based on old iRobot Create 1 platform
